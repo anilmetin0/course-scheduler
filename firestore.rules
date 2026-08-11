@@ -1,0 +1,40 @@
+rules_version='2'
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Feedback submissions (create only)
+    match /feedback/{doc} {
+      allow create: if true;
+    }
+
+    // Event stream (create only)
+    match /analytics_events/{doc} {
+      allow create: if true;
+    }
+
+    // User analytics snapshots (create/update only)
+    match /analytics_users/{doc} {
+      allow create, update: if true;
+    }
+
+    // Saved schedule analytics (create only)
+    match /schedule_saves/{doc} {
+      allow create: if true;
+    }
+
+    // Aggregated course stats (create/update only)
+    match /course_stats/{doc} {
+      allow create, update: if true;
+    }
+
+    // Aggregated course pair stats (create/update only)
+    match /course_pair_stats/{doc} {
+      allow create, update: if true;
+    }
+  }
+}
